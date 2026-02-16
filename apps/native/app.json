@@ -1,0 +1,17 @@
+{
+  "expo": {
+    "scheme": "monorepo",
+    "userInterfaceStyle": "automatic",
+    "orientation": "default",
+    "web": {
+      "bundler": "metro"
+    },
+    "name": "monorepo",
+    "slug": "monorepo",
+    "plugins": ["expo-font"],
+    "experiments": {
+      "typedRoutes": true,
+      "reactCompiler": true
+    }
+  }
+}
