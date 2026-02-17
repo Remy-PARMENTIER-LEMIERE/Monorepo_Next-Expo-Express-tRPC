@@ -1,25 +1,32 @@
 {
-  "name": "@monorepo/auth",
-  "type": "module",
-  "exports": {
-    ".": {
-      "default": "./src/index.ts"
-    },
-    "./*": {
-      "default": "./src/*.ts"
-    }
-  },
-  "scripts": {},
-  "dependencies": {
-    "@better-auth/expo": "catalog:",
-    "@monorepo/db": "workspace:*",
-    "@monorepo/env": "workspace:*",
-    "better-auth": "catalog:",
-    "dotenv": "catalog:",
-    "zod": "catalog:"
-  },
-  "devDependencies": {
-    "@monorepo/config": "workspace:*",
-    "typescript": "catalog:"
-  }
+	"name": "@monorepo/auth",
+	"type": "module",
+	"exports": {
+		".": {
+			"default": "./src/index.tsx"
+		},
+		"./*": {
+			"default": "./src/*.tsx"
+		}
+	},
+	"scripts": {},
+	"dependencies": {
+		"@better-auth/expo": "catalog:",
+		"@monorepo/db": "workspace:*",
+		"@monorepo/env": "workspace:*",
+		"argon2": "^0.44.0",
+		"better-auth": "catalog:",
+		"dotenv": "catalog:",
+		"resend": "^6.9.2",
+		"zod": "catalog:",
+		"react": "19.2.4",
+		"react-dom": "19.2.4",
+		"@monorepo/transactional": "workspace:*"
+	},
+	"devDependencies": {
+		"@monorepo/config": "workspace:*",
+		"typescript": "catalog:",
+		"@types/react": "^19.2.14",
+		"@types/react-dom": "^19.2.3"
+	}
 }
