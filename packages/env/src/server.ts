@@ -13,7 +13,7 @@ export const env = createEnv({
 		BETTER_AUTH_URL: z.url(),
 		OAUTH_GOOGLE_CLIENT_ID: z.string().min(1),
 		OAUTH_GOOGLE_CLIENT_SECRET: z.string().min(1),
-		CORS_ORIGIN: z.url(),
+		CORS_ORIGIN: z.string(),
 		RESEND_API_KEY: z.string().min(30),
 		NOTIFICATION_EMAIL: z.email(),
 		DEV_CLIENT_EMAIL: z.email(),

@@ -8,10 +8,18 @@
     },
     "name": "monorepo",
     "slug": "monorepo",
-    "plugins": ["expo-font"],
+    "plugins": [
+      "expo-font"
+    ],
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "android": {
+      "package": "com.aprjohnlocke.monorepo"
+    },
+    "ios": {
+      "bundleIdentifier": "com.aprjohnlocke.monorepo"
     }
   }
 }
