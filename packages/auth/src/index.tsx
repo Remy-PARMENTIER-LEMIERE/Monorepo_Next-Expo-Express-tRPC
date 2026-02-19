@@ -17,7 +17,7 @@ export const auth = betterAuth({
 	baseURL: env.BETTER_AUTH_URL,
 	trustedOrigins: [
 		env.CORS_ORIGIN,
-		"mybettertapp://",
+		"monorepo://",
 		...(env.NODE_ENV === "development"
 			? [
 					"exp://",

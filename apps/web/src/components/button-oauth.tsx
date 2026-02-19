@@ -74,6 +74,9 @@ export default function ButtonOAuth({
 					setIsPending(false);
 				},
 				onError: (ctx) => {
+					if (process.env.NODE_ENV === "development") {
+						console.log("OAuth error:", ctx.error);
+					}
 					toast.error(
 						ctx.error?.message ||
 							`Error during Sign-${sign} with ${normalizedProvider(provider)}. Please try again.`,
@@ -92,7 +95,7 @@ export default function ButtonOAuth({
 			{!isPending ? (
 				<>
 					{normalizedProvider(provider)}{" "}
-					<LogIn className="inline-block w-4 h-4" />
+					<LogIn className="inline-block h-4 w-4" />
 				</>
 			) : (
 				`Signing ${sign}...`

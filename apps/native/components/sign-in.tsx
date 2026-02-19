@@ -9,8 +9,8 @@ import {
 	TextField,
 	useToast,
 } from "heroui-native";
-import { useRef } from "react";
-import { Text, type TextInput, View } from "react-native";
+import { useRef, useState } from "react";
+import { Alert, Text, type TextInput, View } from "react-native";
 import z from "zod";
 
 import { authClient } from "@/lib/auth-client";
@@ -58,6 +58,38 @@ function getErrorMessage(error: unknown): string | null {
 function SignIn() {
 	const passwordInputRef = useRef<TextInput>(null);
 	const { toast } = useToast();
+	const [isPending, setIsPending] = useState(false);
+	const handlePressOAuth = async () => {
+		try {
+			const result = await authClient.signIn.social({
+				provider: "google",
+				callbackURL: "/home",
+				fetchOptions: {
+					onRequest: (ctx) => {
+						setIsPending(true);
+						Alert.alert("Req: ", JSON.stringify(ctx, null, 2));
+					},
+					onResponse: () => {
+						setIsPending(false);
+					},
+					onSuccess: () => {
+						// router.replace("/home");
+					},
+					onError: (_ctx) => {
+						// Alert.alert("Erreur OAuth", ctx.error.message);
+					},
+				},
+			});
+			// console.log("OAuth result:", result);
+			if (result?.error) {
+				// Alert.alert("Erreur", result.error.message || "Échec de connexion");
+			}
+		} catch (_error) {
+			// console.error("OAuth error:", error);
+			// Alert.alert("Erreur", String(error));
+			setIsPending(false);
+		}
+	};
 
 	const form = useForm({
 		defaultValues: {
@@ -169,14 +201,12 @@ function SignIn() {
 								</Button>
 								<Button
 									className="mt-1"
-									onPress={async () =>
-										await authClient.signIn.social({
-											provider: "google",
-											callbackURL: "/(drawer)/(tabs)/index",
-										})
-									}
+									onPress={handlePressOAuth}
+									isDisabled={isPending}
 								>
-									<Button.Label>Google</Button.Label>
+									<Button.Label>
+										{isPending ? "Signing in..." : "Google"}
+									</Button.Label>
 								</Button>
 							</View>
 						</>
