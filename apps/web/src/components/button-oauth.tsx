@@ -1,5 +1,6 @@
 "use client";
 
+import { env } from "@monorepo/env/web";
 import { LogIn } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
@@ -54,7 +55,7 @@ export default function ButtonOAuth({
 	};
 
 	const clientBaseUrl =
-		process.env.NEXT_PUBLIC_CLIENT_URL ??
+		env.NEXT_PUBLIC_CLIENT_URL ??
 		(typeof window !== "undefined" ? window.location.origin : "");
 	const callbackURL = clientBaseUrl ? `${clientBaseUrl}/` : "/";
 	const errorCallbackURL = clientBaseUrl
@@ -67,8 +68,9 @@ export default function ButtonOAuth({
 			callbackURL,
 			errorCallbackURL,
 			fetchOptions: {
-				onRequest: () => {
+				onRequest: (ctx) => {
 					setIsPending(true);
+					console.log("Req: ", JSON.stringify(ctx));
 				},
 				onResponse: () => {
 					setIsPending(false);

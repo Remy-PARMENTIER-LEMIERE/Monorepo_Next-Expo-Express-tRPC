@@ -7,6 +7,7 @@ import {
 } from "@monorepo/transactional";
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
+import React from "react";
 import { hashPassword, verifyPassword } from "../lib/argon2";
 import { resend } from "../lib/resend";
 
@@ -16,7 +17,7 @@ export const auth = betterAuth({
 	}),
 	baseURL: env.BETTER_AUTH_URL,
 	trustedOrigins: [
-		env.CORS_ORIGIN,
+		...(env.CORS_ORIGIN.split(",").map((origin) => origin.trim()) || []),
 		"monorepo://",
 		...(env.NODE_ENV === "development"
 			? [
@@ -40,13 +41,17 @@ export const auth = betterAuth({
 			verify: verifyPassword,
 		},
 		async sendResetPassword({ user, url }) {
-			await resend.emails.send({
+			const { error } = await resend.emails.send({
 				from: `${env.APP_NAME} Notification <${env.NOTIFICATION_EMAIL}>`,
 				to:
 					env.NODE_ENV === "development" ? "delivered@resend.dev" : user.email,
 				subject: "Reset your password",
 				react: <ForgotPasswordEmail url={url} />,
 			});
+
+			if (error) {
+				console.error("Failed to send reset password email:", error);
+			}
 		},
 	},
 	emailVerification: {
