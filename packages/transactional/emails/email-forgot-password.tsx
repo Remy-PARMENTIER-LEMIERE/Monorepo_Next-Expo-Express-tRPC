@@ -1,5 +1,5 @@
 import { Html, Link, Text } from "@react-email/components";
-import "react";
+import * as React from "react";
 
 export default function ForgotPasswordEmail(props: { url: string }) {
 	const { url } = props;

@@ -21,7 +21,7 @@ export default function ForgotPasswordForm() {
 
 		await authClient.requestPasswordReset({
 			email,
-			redirectTo: `${env.NEXT_PUBLIC_SERVER_URL}/auth/reset-password`,
+			redirectTo: `${env.NEXT_PUBLIC_CLIENT_URL}/auth/reset-password`,
 			fetchOptions: {
 				onRequest: () => {
 					setIsPending(true);

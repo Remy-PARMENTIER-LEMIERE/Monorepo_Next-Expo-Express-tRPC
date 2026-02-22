@@ -60,10 +60,9 @@ export const auth = betterAuth({
 		autoSignInAfterVerification: true,
 		sendVerificationEmail: async ({ user, url }) => {
 			const link = new URL(url);
-			link.searchParams.set("callbackURL", "/auth/verify");
 
 			await resend.emails.send({
-				from: `${env.APP_NAME} <${env.NODE_ENV === "development" ? "notifications@resend.dev" : env.NOTIFICATION_EMAIL}>`,
+				from: `${env.APP_NAME} <${env.NOTIFICATION_EMAIL}>`,
 				to:
 					env.NODE_ENV === "development" ? "delivered@resend.dev" : user.email,
 				subject: "Verify your email address",
