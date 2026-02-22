@@ -1,5 +1,6 @@
 "use client";
 
+import { env } from "@monorepo/env/web";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { authClient } from "@/lib/auth-client";
@@ -24,6 +25,7 @@ export default function SignupForm() {
 			name: name as string,
 			email: email as string,
 			password: password as string,
+			callbackURL: `${env.NEXT_PUBLIC_CLIENT_URL}/auth/session`,
 			fetchOptions: {
 				onRequest: () => {
 					setIsPending(true);

@@ -1,5 +1,6 @@
 "use client";
 
+import { env } from "@monorepo/env/web";
 import { LogIn } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
@@ -54,7 +55,7 @@ export default function ButtonOAuth({
 	};
 
 	const clientBaseUrl =
-		process.env.NEXT_PUBLIC_CLIENT_URL ??
+		env.NEXT_PUBLIC_CLIENT_URL ??
 		(typeof window !== "undefined" ? window.location.origin : "");
 	const callbackURL = clientBaseUrl ? `${clientBaseUrl}/` : "/";
 	const errorCallbackURL = clientBaseUrl
@@ -67,13 +68,17 @@ export default function ButtonOAuth({
 			callbackURL,
 			errorCallbackURL,
 			fetchOptions: {
-				onRequest: () => {
+				onRequest: (ctx) => {
 					setIsPending(true);
+					console.log("Req: ", JSON.stringify(ctx));
 				},
 				onResponse: () => {
 					setIsPending(false);
 				},
 				onError: (ctx) => {
+					if (process.env.NODE_ENV === "development") {
+						console.log("OAuth error:", ctx.error);
+					}
 					toast.error(
 						ctx.error?.message ||
 							`Error during Sign-${sign} with ${normalizedProvider(provider)}. Please try again.`,
@@ -92,7 +97,7 @@ export default function ButtonOAuth({
 			{!isPending ? (
 				<>
 					{normalizedProvider(provider)}{" "}
-					<LogIn className="inline-block w-4 h-4" />
+					<LogIn className="inline-block h-4 w-4" />
 				</>
 			) : (
 				`Signing ${sign}...`
